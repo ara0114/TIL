@@ -17,7 +17,7 @@
   - __DataInputStream__: 데이터 타입을 지정하여 입력할 수 있는 클래스
   - __DataOutputStream__: 데이터 타입을 지정해서 출력할 수 있는 클래스
   
-- 객체를 쓰고 읽는 클래스(객체를 스트림으로 만든다) = __"직렬화"__
+- 객체를 쓰고 읽는 클래스(객체를 스트림으로 만든다) = __"직렬화"__  --아래에서 다시
 
   - __ObjectInputStream__: Class 객체를 읽어 올 수 있음
 
@@ -60,3 +60,63 @@
 파일을 읽어 내용을 입력하거나 파일에 내용을 출력
 
 → 수업 코드들 보고 반복
+
+---
+
+System.in: 키보드 표준입력 
+new InputStreamReader(System.in): 입력을 받아 문자 인코딩을 실행 
+new BufferedReader(): 입력받은 문자를 버퍼에 저장하는 역할 및 저장소 역할
+
+​                   System.in 
+​                    ↑  
+​           InputStreamReader(System.in) 
+​          ↑ 
+new BufferedReader(new InputStreamReader(System.in)) 
+
+
+
+read(): 1바이트(한글자)씩 읽어옴 -> FileReader
+
+readLine(): 한줄씩 읽어옴, 반드시 예외처리해야함 -> BufferedReader
+
+
+
+데이터를 주고 받을땐 DataInputStream, DataOutputStream, writeXXX메소드, readXXX메소드
+
+
+
+`append`: true - 내용추가(이어쓰기), false - 덮어쓰기
+
+-1: 파일의 끝
+
+13: 엔터
+
+line==null: 읽어올게 없다면
+
+spilt(","): `,` 기준으로 쪼개서 하나씩
+
+new Date().toLocaleString(): 현재위치의 로컬날짜
+
+---
+
+Serialization(직렬화) ↔ Desrialization(역직렬화)
+
+: 인스턴스가 파일에 저장될 때 저장을 위해 거치는 과정
+
+→ Serializable 인터페이스
+
+: 인터페이스지만 추상메소드 존재X, __직렬화의 대상임을 표시하는 인터페이스__
+
+
+
+멤버변수 앞에 `transient` 붙으면 직렬화 대상제외(내보내지않겠다.)
+
+
+
+FileOutputStream: 방향만알려줌 파일로 내보낼거다
+
+↔ FileInputStream : 읽어올거다
+
+
+
+Object~ : 객체형태로
