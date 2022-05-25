@@ -86,3 +86,36 @@ cf) out.println => 브라우저 출력
   (액션태그 include는 처리결과를 합함)
 
 - page지시자 동일하게 써줘야함
+
+
+
+6.액션태그
+
+- 종류: include, forward, useBean, setProperty, getProperty 등
+
+  - useBean, setProperty, getProperty: 자바빈즈와 통신을 위해 구현한 액션태그
+
+  ```jsp
+  <jsp:useBean id="dao" class="bbs.BbsDAO"/>
+  <%-- dao 객체 생성--%>
+  
+  <jsp:setProperty name="dto" property="*"/>
+  <%-- request.getParameter(XX)와 dto.setXX(XX) 한번에 --%>
+  ```
+
+  - forward: 다른 페이지로 이동할 때 사용, request 객체 유지하다가 최종응답 후 사라짐
+
+  ```jsp
+  <jsp:forward page="forwardTag1_2.jsp"></jsp:forward>
+  ```
+
+  - include: 다른 페이지를 현재 페이지에 포함시킬수 있는 기능, 지시자와 다르게 처리결과를 포함.
+
+  ```jsp
+  <jsp:include page="/menu/top.jsp" flush="false"/>
+  
+  <%-- flush 속성: 포함될 페이지로 이동할 때 현재 페이지가 지금까지 출력 버퍼에 저장한 결과를 어떻게 처리할 것인가를 결정.
+      flush='true'라면 포함할 페이지의 내용을 삽입하기 전 현재 페이지가 지금까지 버퍼에 저장한 내용을 출력 --%>
+  ```
+
+  
