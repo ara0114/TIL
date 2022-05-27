@@ -18,29 +18,31 @@
   함수 선언: js엔진은 함수 선언문을 맨 위로 올려줌, 함수 선언문보다 먼저 함수를 호출할 수 있음(hoisted)
   함수 표현: 함수를 변수에 할당하여 할당된 변수를 호출함으로써 함수를 실행할 수 있음,
   		  변수에 할당하기 전에는 함수를 호출할 수 없음(hoisting X)
-
+  
   # default parameters
   function test(message, ms='dm'){
   	console.log(`${message} ${ms}`);
   }
-
+  
   test('test'); // test dm 출력
-
+  
   # rest parameters
   function testA(...args){ // 배열형태로 전달..다른 파라미터와 함께 쓸 경우 가장 마지막에 와야함
   	...
   }
-
+  
   # {}안에 긴 로직코드가 구현되면 가독성 떨어짐
   # 조건이 맞지 않을 때 빨리 리턴하여 함수 종료하고 조건이 맞을때만 로직 구현
   ```
+
+<br>
 
 - Function Expression
 
   ```javascript
   // 변수에 함수 할당
   const print = function(){...} //anonymous function
-
+  
   // callback function ... 함수를 파라미터로 전달해서 상황에 따라 호출
   function cb(p, fun1, fun2){
       if(p) fun1();
@@ -54,9 +56,11 @@
 
 - 함수 선언과 동시에 호출
 
-  ```javasc
+  ```javascript
   (function test(){...})();
   ```
+
+<br>
 
 2. 내장함수
 
@@ -77,12 +81,14 @@
    length: 문자열 길이
    ```
 
-   [6] split: 지정한 문자를 기준으로 문자열 분할
+   [6] split: 지정한 문자를 기준으로 문자열 분할<br>
 
 3. Math함수
 
 - Math.round(): 정수로 형변환
 - Math.pow(10,1): 10^1 거듭제곱
+
+<br>
 
 4. 클로저
 
@@ -90,7 +96,7 @@
 - 함수 내에서 함수를 정의하고 사용하면 클로저라고 할 수 있음
 - 정의한 함수를 리턴하고 사용은 바깥에서 함
 - 메모리 계속 잡고 있으므로 효율↓
-- 적당히 사용하거나 사용하지 않아야.. 지역변수 유지해야 할 때 주의해서 사용
+- 적당히 사용하거나 사용하지 않아야.. 지역변수 유지해야 할 때 주의해서 사용 <br>
 
 5. 중첩함수와 익명의 자기호출함수(재귀함수)
 
@@ -105,6 +111,8 @@
   })();
   ```
 
+<br>
+
 6. 타이머 함수
 
 - 특정한 시간에 특정한 함수를 실행할 수 있게 하는 함수
@@ -114,3 +122,46 @@
   [2] setInterval(함수, 초) : 특정한 시간마다 함수를 실행
 
   [3] clearTimeout(), clearInterval() : 타이머가 더이상 필요 없을 때는 타이머를 멈춤
+
+<br>
+
+7. 생성자 함수
+
+- 클래스 없이 new를 사용하여 객체를 생성할 수 잇음
+- new키워드로 객체를 생성할 수 있는 함수를 의미)new키워드 없이 객체 생성시 생성자 함수라 할수 없음)
+- this키워드로 객체의 속성과 함수에 접근
+- 함수명 대문자로 지정
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function Counter(){//생성자함수--일반적으로 대문자로 씀, 클래스이자 생성자, 객체
+            this.sum = 0;
+            this.count = 0;//멤버변수
+        }
+
+        //멤버변수처럼 객체생성시마다 만들어지는 것이 아니라 하나만 만들어진다. 거기에 함수가 연결된다.
+        Counter.prototype.add = function(array){
+            array.forEach(entry=>{
+                this.sum += entry;
+                ++this.count;
+            },this);//this지워도 된다.강조하기위해 사용
+        };
+
+        let obj = new Counter();
+        obj.add([2,5,9]);
+        console.log(`count: ${obj.count}`);
+        console.log(`sum: ${obj.sum}`);
+    </script>
+</head>
+<body>
+</body>
+</html>
+```
+
