@@ -2,21 +2,21 @@
 
 : 키와 값의 구조를 가지고 있으며 특정 객체를 생성하는 경우 초기값으로 많이 사용
 
-상속구조
+<br>상속구조
 
 java.lang.Object
 
-​	java.util.Dictionary<K,V>
+&nbsp; &nbsp; &nbsp; &nbsp;┕ java.util.Dictionary<K,V>
 
-​		java.util.Hashtable<Object,Object>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;┕ java.util.Hashtable<Object,Object>
 
-​			java.util.Properties<String,String>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;┕ java.util.Properties<String,String>
 
-
+<br>
 
 properties파일의 문장끝에 빈공간 없어야 함
 
-
+<br>
 
 \> PropertyTest.java 예제
 
@@ -57,28 +57,28 @@ public class PropertyTest {
 					e.printStackTrace();
 				}
 			}
-		}		
+		}
 		Iterator keyIter = prop.keySet().iterator();
 		while (keyIter.hasNext()) {
 			String key = (String) keyIter.next(); // 키 추출
 			String value = prop.getProperty(key); // 키에 따른 값 추출
 			System.out.println(key + "=" + value);//파일-> properties변환-> properties읽어오기 : 가져오는 순서는 마음대로
 		}
-		
-		Connection con = null; 
-        PreparedStatement pstmt = null; 
-        ResultSet rs = null; 
-        String sql = ""; 
-        String driver = ""; 
-        String url = ""; 
-        String account = ""; 
+
+		Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql = "";
+        String driver = "";
+        String url = "";
+        String account = "";
         String password="";
-        
+
         driver = prop.getProperty("driver");//key로 property의 값 찾아옴
         url = prop.getProperty("url");
         account = prop.getProperty("account");
         password = prop.getProperty("password");
-        
+
         try {
 			Class.forName(driver);//driver를 올리는역할
 			con = DriverManager.getConnection(url,account,password);
@@ -86,7 +86,7 @@ public class PropertyTest {
 					+" where table_schema='javadb' ";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()) {
 				System.out.println("현재 javadb의 테이블 갯수: "+rs.getInt("cnt"));
 			}
@@ -121,8 +121,6 @@ public class PropertyTest {
 }
 ```
 
-
-
 ---
 
 실습: calc.properties 파일을 이용 사칙연산을 수행하는 프로그램 작성하기
@@ -151,7 +149,7 @@ public class Calc {
 		Properties prop = new Properties();
 		FileInputStream fis = null;
 		File file = new File("calc.properties");
-		
+
 		try {
 			fis = new FileInputStream(file);
 			prop.load(fis);
@@ -168,13 +166,13 @@ public class Calc {
 				}
 			}
 		}
-		
+
 		int su1 = 0;
 		int su2 = 0;
-		
+
 		su1 = Integer.parseInt(prop.getProperty("su1"));
 		su2 = Integer.parseInt(prop.getProperty("su2"));
-		
+
 		System.out.println("su1 + su2 = "+ (su1+su2));
 		System.out.println("su1 - su2 = "+ (su1-su2));
 		System.out.println("su1 * su2 = "+ (su1*su2));
@@ -182,4 +180,3 @@ public class Calc {
 	}
 }
 ```
-
