@@ -18,13 +18,13 @@
 |    View    |   jsp, html   |                         표현                          |
 | Controller |    servlet    | 적절한 Model을 사용,처리하여 뷰로 이동시키는 제어처리 |
 
-![image-20220604230335551](MVC모델.assets/image-20220604230335551.png)
+![image-20220604230335551](https://user-images.githubusercontent.com/103404127/172038816-02462a18-18f7-495c-8bc3-56384493653b.png)
 
 ## Model1과 Model2
 
 [1] Model1(**JSP+JavaBeans**)
 
-![image-20220604230744754](MVC모델.assets/image-20220604230744754.png)
+![image-20220604230744754](https://user-images.githubusercontent.com/103404127/172038818-a2bfea6d-d31a-4782-9638-1d4c3086494a.png)
 
 - 개발순서
 
@@ -44,7 +44,7 @@
 
 [2] Model2(**MVC**)
 
-![image-20220604230939614](MVC모델.assets/image-20220604230939614.png)
+![image-20220604230939614](https://user-images.githubusercontent.com/103404127/172038822-0cc04e3c-d07d-4e14-8a26-1a9eeecdf020.png)
 
 1. 요청, 컨트롤러가 요청을 받아 분석
 2. 컨트롤러가 알맞은 비즈니스 로직을 처리하는 모델사용(객체생성)
