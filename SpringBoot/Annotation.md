@@ -28,25 +28,40 @@
 
 @Qualifier : 동일한 인터페이스를 구현한 클래스가 여러개 있는 경우 이름을 지정하여 명확하게 클래스를 인식할 수 있음
 
-@RequestMapping("/") : 웹브라우저주소창에 url을 입력하면 이 어노테이션에 등록된 메소드가 호출됌. Controller에서만 사용가능
+@RequestMapping : 컨트롤러가 처리할 GET/POST방식 요청 URL명시(클래스, 메소드) Controller에서만 사용가능
 
 ```
 -사용자 요청시 처리할 메소드 리턴
 -연결된 메소드의 매개변수는 요청/응답 객체, 요청처리 결과를 담아 뷰페이지로 전달할 Model객체, 요청지로부터 전달받은 파라미터값 등 다양한 값이 선언될 수 있음
 -요청 url자체에 변수를 넣어줄 수 있는데 주소와 변수를 구분하기위해 @PathVariable을 사용
 -기존 컨트롤러에 코드를 추가함
--@GetMapping, @PostMapping
+-@GetMapping(GET방식), @PostMapping(POST방식)
 ```
 
-@ResponseBody : 자바객체를 http요청의 body내용으로 변환/매핑하는 어노테이션. 문자열 데이터만 응답
+@ResponseBody : 데이터를 원하는 타입의 객체로 변환. 문자열 데이터만 응답
 
 @RequestBody : http요청의 body내용을 전달받아 자바 객체로 변환/매핑하는 어노테이션
 
-@Controller : Controller로 사용되는 클래스 선언을 단순화 시켜줌. 뷰 리턴. 리턴타입이 String이면 jsp파일명을 의미, 문자열 리턴시 @ResponseBody명시함
+@Controller : Controller로 사용되는 클래스 선언을 단순화 시켜줌. 웹 요청처리에 사용. 뷰 리턴. 리턴타입이 String이면 jsp파일명을 의미, 문자열 리턴시 @ResponseBody명시함
 
 @RestController : @Controller 와 @ResponseBody의 결합형태, 데이터(문자열) 리턴. 비동기 통신시 사용하면 좋음.
 
-@RequestParam : request.getParameter
+@RequestParam : request.getParameter, form페이지에서 넘어오는 파라미터를 받을 수 있음.
+
+```
+- 해당 파라미터가 없으면 HTTP400 - Bad Request 전달
+- 파라미터가 필수가 아니라면 required = false 로 지정하면 됌
+- 파라미터가 없으면 null이 들어가며, default값을 지정할 수 도 있음
+public void view(@RequestParam(value = "id",  
+                               required = false,  
+                               defaultValue = "0" )  int id) {..}.  
+- 생략해서 사용할수도 있음.
+- Map 타입으로 데이터 받을 경우 반드시 명시해야함.
+public String add( @RequestParam Map<String, String> params ) {...} 
+```
 
 @PathVariable : url경로주소에 사용하는 값을 매개변수로 사용가능하게 해주는 어노테이션, RequestMapping의 어노테이션 값으로 {템플릿변수} 사용하고 @PathVarialbe 어노테이션을 이용하여 {템플릿변수}와 동일한 이름을 갖는 파라미터 추가함.
 
+@ModelAttribute : 파라미터를 DTO형태로 받을때 사용. 생략해도됌.
+
+@SessionAttributes : 세션상에서 model의 정보를 유지하고 싶을경우 사용
