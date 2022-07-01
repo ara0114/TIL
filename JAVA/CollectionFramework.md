@@ -157,7 +157,7 @@ for(String str : set){  }	//Iterator사용하지 않더라도 전체 객체 대�
 
 - 메소드
 
-![image-20220702000741811](CollectionFramework.assets/image-20220702000741811.png)
+![image](https://user-images.githubusercontent.com/103404127/176922379-8918bdb2-1897-49c2-93c4-d5422338e851.png)
 
 
 
