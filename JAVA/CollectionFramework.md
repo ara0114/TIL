@@ -14,7 +14,7 @@
 
 <br>
 
-## 1. List
+## List
 
 - 객체를 일렬로 늘어놓은 구조.
 
@@ -97,7 +97,7 @@ List<E> list = new LinkedList<E>();	//LinkedList생성
 
 <br>
 
-## 2. Set
+## Set
 
 - 저장순서 유지X, 객체 중복저장X, 하나의 null만 허용
 - 집합
@@ -145,7 +145,7 @@ for(String str : set){  }	//Iterator사용하지 않더라도 전체 객체 대�
 
 <br>
 
-## 3. Map
+## Map
 
 - 키(key)와 값(value)로 구성된 쌍을 저장하는 구조(키와 값 모두 객체)
 
@@ -159,5 +159,132 @@ for(String str : set){  }	//Iterator사용하지 않더라도 전체 객체 대�
 
 ![image](https://user-images.githubusercontent.com/103404127/176922379-8918bdb2-1897-49c2-93c4-d5422338e851.png)
 
+- 저장된 전체 객체를 대상으로 하나씩 찾아오고 싶은 경우
 
+```java
+//1. keySet()
+Map<K,V> map= ~;
+Set<K> keySet = map.keySet();//모든 키를 Set컬렉션으로
+Interator<K> keyIterator = keySet.iterator();
+while(keyIterator.hasNext()){
+    K key = keyIterator.next();//키를 하나씩 얻기
+    V value = map.get(key);//키로 객체 찾아 값 가져오기
+}
+
+//2. entrySet()
+Set<Map.Entry<K,V>> entrySet = map.entrySet();//모든 Map.Entry를 Set컬렉션으로
+Iterator<Map.Entry<K,V>> entryIterator = entrySet.iterator();
+while(entryIterator.hasNext()){
+    Map.Entry<K,V> entry = entryIterator.next();//Map.Entry를 하나씩 얻기
+    K key = entry.getKey();
+    V value = entry.getValue();
+}
+```
+
+### HashMap
+
+- Map 인터페이스 구현 클래스
+- 동등 객체가 될 조건 = 동일한 키가 될 조건
+  - hashCode() 리턴값 같아야 함
+  - equals() 메소드가 true
+
+- 키와 값 타입은 클래스 킻 인터페이스 타입만 가능
+
+```java
+Map<K, V> map = new HashMap<K,V>();	//HashMap생성
+```
+
+### Hashtable
+
+- HashMap과 동일한 내부 구조
+- hashCode(), equals()
+- 동기화된 메소드로 구성 => 멀티스레드 환경에서 안전하게 객체 추가/삭제
+  - 멀티스레드가 동시에 메소드 실행 불가(스레드 하나가 실행 완료하면 다른 스래드 실행)
+
+```java
+Map<K, V> map = new Hashtable<K, V>(); //Hashtable생성
+```
+
+### Properties
+
+- Hashtable의 하위클래스 => Hashtable의 모든 특징 그대로 가짐
+- 키와 값이 **String타입으로 제한**됌
+- 프로퍼티 파일을 읽을 때 주로 사용
+- 프로퍼티 파일(*.properties)
+  - 애플리케이션 옵션정보, DB연결정보, 국제화(다국어) 정보가 저장
+  - 키와 값이 = 기호로 연결되어있는 텍스트 파일
+- 프로퍼티 파일 읽기
+
+```java
+String path = 클래스.class.getResource("프로퍼티파일").getPath();
+//클래스 파일 기준으로 상대경로를 이용해 프로퍼티 파일 경로 얻기
+//getResource: 주어진 파일 상대경로 URL객체로 리턴
+//getPath: 파일의 절대 경로 리턴
+path = URLDecoder.decode(path,"utf-8");
+Properties properties = new Properties(); //프로퍼티 파일 객체 생성
+properties.load(new FileReader(path));//load: 프로퍼티 파일에서 데이터 읽기
+```
+
+- 키 값 읽기위해 getProperty() 메소드 이용
+  - get()은 Object타입, 강제타입변환을 통해 String 얻어야하므로 주로 getProperty 사용 
+
+<br>
+
+## 검색기능을 강화시킨 컬렉션
+
+### 이진트리구조(binary Tree)
+
+- 여러개의 node가 트리 형태로 연결된 구조
+- root node에서 시작해서 각 노드에 최대 2개의 노드를 연결할 수 있는 구조
+- 위아래로 연결된 두 노드를 부모-자식관계(부모노드-자식노드)
+- 1개의 부모노드는 최대 2개의 자식노드와 연결
+- 부모 노드의 값 보다 작은 노드는 왼쪽에, 큰 노드는 오른쪽에 위치(값이 정렬되어 있음)
+  - 왼쪽자식->부모->오른쪽자식 : 오름차순
+  - 오른쪽 자식->부모->왼쪽자식 : 내림차순
+
+### TreeSet
+
+- 이진트리기반 Set컬렉션
+- 하나의 노드는 노드값인 value, 왼쪽/오른쪽 자식노드를 참조하기 위한 두개의 변수로 구성
+- 자동정렬: 부모값과 비교해 낮은 것은 왼쪽 자식노드, 높은 것은 오른쪽 자식노드에 저장
+
+### TreeMap
+
+- 이진트리기반 Map컬렉션
+- 키와 값이 저장된 Map.Entry저장
+- 자동정렬: 부모 키 값과 비교해 낮은 것은 왼쪽 자식노드, 높은 것은 오른쪽 자식노드에 저장
+
+<br>
+
+## LIFO와 FIFO 컬렉션
+
+- LIFO(Last In First Out) : 나중에 넣은 것 먼저 빠져나감
+- FIFO(First In First Out) : 먼저 넣은 것 먼저 빠져나감
+
+### Stack
+
+- LIFO 구조
+- JVM 스택메모리가 대표적
+- 주요 메소드
+
+| 메소드         | 설명                                           |
+| -------------- | ---------------------------------------------- |
+| E push(E item) | 주어진 객체를 스택에 넣음                      |
+| E peek()       | 스택의 맨 위 객체 가져옴(객체 스택에서 제거 X) |
+| E pop()        | 스택의 맨 위 객체 가져옴(객체 스택에서 제거 O) |
+
+### Queue
+
+- FIFO 구조
+- 스레드풀의 작업 큐가 대표적
+
+- 주요 메소드
+
+| 메소드             | 설명                                 |
+| ------------------ | ------------------------------------ |
+| boolean offer(E e) | 주어진 객체를 넣음                   |
+| E peek()           | 객체 하나 가져옴(객체 큐에서 제거 X) |
+| E poll()           | 객체 하나 가져옴(객체 큐에서 제거 O) |
+
+- Queue인터페이스를 구현한 대표적 클래스: *LinkedList*(List 인터페이스를 구현하여 List컬렉션이기도 함)
 
