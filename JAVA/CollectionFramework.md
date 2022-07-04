@@ -69,7 +69,7 @@ List<Integer> list2 = Arrays.asList(1,2);
 ### Vector
 
 - ArrayList와 동일한 내부구조
-- 동기화된 메소드로 구성 => 멀티스레드 환경에서 안전하게 객체 추가/삭제
+- 동기화된 메소드로 구성 => 멀티스레드 환경에서 안전하게 객체 추가/삭제(Thread-safe)
   - 멀티스레드가 동시에 메소드 실행 불가(스레드 하나가 실행 완료하면 다른 스래드 실행)
 
 ```java
@@ -188,7 +188,7 @@ while(entryIterator.hasNext()){
   - hashCode() 리턴값 같아야 함
   - equals() 메소드가 true
 
-- 키와 값 타입은 클래스 킻 인터페이스 타입만 가능
+- 키와 값 타입은 클래스 및 인터페이스 타입만 가능
 
 ```java
 Map<K, V> map = new HashMap<K,V>();	//HashMap생성
@@ -198,17 +198,21 @@ Map<K, V> map = new HashMap<K,V>();	//HashMap생성
 
 - HashMap과 동일한 내부 구조
 - hashCode(), equals()
-- 동기화된 메소드로 구성 => 멀티스레드 환경에서 안전하게 객체 추가/삭제
+- 동기화된 메소드로 구성 => 멀티스레드 환경에서 안전하게 객체 추가/삭제(Thread-safe)
   - 멀티스레드가 동시에 메소드 실행 불가(스레드 하나가 실행 완료하면 다른 스래드 실행)
 
 ```java
 Map<K, V> map = new Hashtable<K, V>(); //Hashtable생성
 ```
 
+### HashMap 과 Hashtable의 차이
+
+![image](https://user-images.githubusercontent.com/103404127/177140569-a2eacd9a-b108-4380-88f3-10323a69461d.png)
+
 ### Properties
 
 - Hashtable의 하위클래스 => Hashtable의 모든 특징 그대로 가짐
-- 키와 값이 **String타입으로 제한**됌
+- 키와 값이 **String타입으로 제한** 
 - 프로퍼티 파일을 읽을 때 주로 사용
 - 프로퍼티 파일(*.properties)
   - 애플리케이션 옵션정보, DB연결정보, 국제화(다국어) 정보가 저장
