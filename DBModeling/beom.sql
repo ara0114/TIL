@@ -1,10 +1,17 @@
 use beom;
+
 drop table if exists category, certification, designer, enroll, hairmenu, notice, reserve, review, style, user;
 
-CREATE TABLE category (
-       cateno               int NOT NULL auto_increment,
-       catename             varchar(20) NOT NULL,
-       PRIMARY KEY (cateno)
+CREATE TABLE user (
+       uid                  varchar(20) NOT NULL, 
+       upw                  varchar(20) NOT NULL, 
+       uemail               varchar(50) NOT NULL,
+       uname                varchar(20) NOT NULL,
+       uphone               varchar(20) NOT NULL,
+       grade                varchar(5) DEFAULT 'C' NOT NULL
+                                   CHECK (grade IN ('A', 'C')),
+       PRIMARY KEY (uid),
+       UNIQUE (uemail)
 );
 
 CREATE TABLE designer (
@@ -19,59 +26,17 @@ CREATE TABLE designer (
        dzipcode             varchar(20) NOT NULL,
        validation           boolean DEFAULT false NULL
                                    CHECK (validation IN (false, true)),
-       likecnt                 int DEFAULT 0 NULL,
+       likecnt              int DEFAULT 0 NULL,
        dfilename            varchar(60) NULL,
        PRIMARY KEY (did),
        UNIQUE (demail)
 );
 
-
-CREATE TABLE hairmenu (
-       menuno               int NOT NULL auto_increment,
-       price                int NOT NULL,
-       menu                 varchar(20) NOT NULL,
-       did                  varchar(50) NOT NULL,
-       cateno               int NOT NULL,
-       PRIMARY KEY (menuno), 
-       FOREIGN KEY (cateno) REFERENCES category(cateno), 
-       FOREIGN KEY (did) REFERENCES designer(did)
+CREATE TABLE category (
+       cateno               int NOT NULL auto_increment,
+       catename             varchar(20) NOT NULL,
+       PRIMARY KEY (cateno)
 );
-
-
-CREATE TABLE enroll (
-       enrollno             int NOT NULL auto_increment,
-       enrolldate           varchar(20) NOT NULL,
-       enrolltime           varchar(20) NOT NULL,
-       menuno               int NOT NULL,
-       did                  varchar(50) NOT NULL,
-       PRIMARY KEY (enrollno), 
-       FOREIGN KEY (menuno) REFERENCES hairmenu(menuno), 
-       FOREIGN KEY (did) REFERENCES designer(did)
-);
-
-
-CREATE TABLE user (
-       uid                  varchar(20) NOT NULL,
-       upw                  varchar(20) NOT NULL,
-       uemail               varchar(50) NOT NULL,
-       uname                varchar(20) NOT NULL,
-       uphone               varchar(20) NOT NULL,
-       grade                varchar(5) DEFAULT 'C' NOT NULL
-                                   CHECK (grade IN ('A', 'C')),
-       PRIMARY KEY (uid)
-);
-
-
-CREATE TABLE reserve (
-       reserveno            int NOT NULL auto_increment,
-       uid                  varchar(20) NOT NULL,
-       message              varCHAR(100) NULL,
-       enrollno             int NOT NULL,
-       PRIMARY KEY (reserveno), 
-       FOREIGN KEY (enrollno) REFERENCES enroll(enrollno), 
-       FOREIGN KEY (uid) REFERENCES user(uid)
-);
-
 
 CREATE TABLE certification (
        did                  varchar(50) NOT NULL,
@@ -84,18 +49,38 @@ CREATE TABLE certification (
        FOREIGN KEY (did) REFERENCES designer(did)
 );
 
-
-CREATE TABLE style (
-       imgno                int NOT NULL auto_increment,
-       sfilename            varchar(50) NOT NULL,
-       did                  varchar(50) NOT NULL,
-       gender               varchar(10) NULL,
-       imgtype              varchar(50) NULL,
-       imgcode              blob NULL,
-       PRIMARY KEY (imgno), 
-       FOREIGN KEY (did) REFERENCES designer(did)
+CREATE TABLE notice (
+       noticeno             int NOT NULL auto_increment,
+       uid                  varchar(20) NOT NULL,
+       ntitle               varchar(30) NOT NULL,
+       viewcnt              int DEFAULT 0 NULL,
+       ndate                varchar(20) NOT NULL,
+       ncontent             text NOT NULL,
+       PRIMARY KEY (noticeno), 
+       FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
+CREATE TABLE style (
+		imageno 	int NOT NULL AUTO_INCREMENT, -- 정렬할때 사용
+		imagetype 	VARCHAR(30) NOT NULL,      -- 이미지 타입
+		imagecode 	LONGBLOB NOT NULL,         -- 이미지 바이너리 코드저장 
+		did 		VARCHAR(50) NOT NULL,            -- 업로드한 디자이너 구분
+		gender 		VARCHAR(10) DEFAULT '여자' NOT NULL      -- 사진정렬시 여자 남자로 구분
+						CHECK(gender IN('여자','남자')),
+		PRIMARY KEY (imageno),
+		FOREIGN KEY (did) REFERENCES designer(did)
+);
+
+CREATE TABLE hairmenu (
+       menuno               int NOT NULL auto_increment,
+       price                int NOT NULL,
+       menu                 varchar(20) NOT NULL,
+       did                  varchar(50) NOT NULL,
+       cateno               int NOT NULL,
+       PRIMARY KEY (menuno), 
+       FOREIGN KEY (cateno) REFERENCES category(cateno), 
+       FOREIGN KEY (did) REFERENCES designer(did)
+);
 
 CREATE TABLE review (
        rno                  int NOT NULL auto_increment,
@@ -111,17 +96,27 @@ CREATE TABLE review (
        FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
+CREATE TABLE enroll (
+       enrollno             int NOT NULL auto_increment,
+       enrolldate           varchar(20) NOT NULL,
+       enrolltime           varchar(20) NOT NULL,
+       menuno               int NOT NULL,
+       did                  varchar(50) NOT NULL,
+       PRIMARY KEY (enrollno), 
+       FOREIGN KEY (menuno) REFERENCES hairmenu(menuno), 
+       FOREIGN KEY (did) REFERENCES designer(did)
+);
 
-CREATE TABLE notice (
-       noticeno             int NOT NULL auto_increment,
+CREATE TABLE reserve (
+       reserveno            int NOT NULL auto_increment,
        uid                  varchar(20) NOT NULL,
-       ntitle               varchar(30) NOT NULL,
-       viewcnt              int DEFAULT 0 NULL,
-       ndate                varchar(20) NOT NULL,
-       ncontent             text NOT NULL,
-       PRIMARY KEY (noticeno), 
+       message              varCHAR(100) NULL,
+       enrollno             int NOT NULL,
+       PRIMARY KEY (reserveno), 
+       FOREIGN KEY (enrollno) REFERENCES enroll(enrollno), 
        FOREIGN KEY (uid) REFERENCES user(uid)
 );
+
 
 #---------------------------------------------------------------------------------------
 SELECT * FROM user;
@@ -172,9 +167,9 @@ INSERT INTO notice(uid,ntitle,ndate,ncontent) VALUES('admin','공지사항',sysd
 INSERT INTO notice(uid,ntitle,ndate,ncontent) VALUES('admin','사이트이용안내',sysdate(),'사이트이용안내입니다');
 #---------------------------------------------------------------------------------------
 SELECT * FROM style WHERE did='de1';
-INSERT INTO style(sfilename,did,gender) VALUES('style1.jpg','de1','female');
-INSERT INTO style(sfilename,did,gender) VALUES('style2.jpg','de1','male');
-INSERT INTO style(sfilename,did,gender) VALUES('style3.jpg','de2','male');
+INSERT INTO style(imagetype,imagecode,did,gender) VALUES('jpg','12fgs34622344t','de1','여자');
+INSERT INTO style(imagetype,imagecode,did,gender) VALUES('jpg','0142%@%^1353df','de1','남자');
+INSERT INTO style(imagetype,imagecode,did,gender) VALUES('jpg','426573$622344t','de2','남자');
 #---------------------------------------------------------------------------------------
 SELECT * FROM hairmenu order by price;
 INSERT INTO hairmenu(price,menu,did,cateno) VALUES(13000,'남성 컷','de1',1);
@@ -195,6 +190,17 @@ SELECT * FROM reserve;
 INSERT INTO reserve(enrollno,uid,message) VALUES('1','user1','10분내로갑니다');
 INSERT INTO reserve(enrollno,uid,message) VALUES('2','user1','머리가얇아요');
 #---------------------------------------------------------------------------------------
-SELECT d.did, d.dname, d.birth, c.licensetype, c.licenseno, c.licensedate, c.uniquecode1
+SELECT c.did, d.dname, d.birth, c.licensetype, c.licenseno, c.licensedate, c.uniquecode1
 FROM designer d inner join certification c
 on d.did = c.did and c.licensetype like '수첩형%';
+
+SELECT d.dname, c.catename, h.menu, h.price
+FROM designer d left join hairmenu h 
+on d.did = h.did left join category c
+on h.cateno = c.cateno;
+
+SELECT d.dname, e.enrolldate, e.enrolltime, h.menu, h.price
+FROM designer d left join enroll e
+on d.did = e.did left join hairmenu h
+on d.did = h.did;
+
