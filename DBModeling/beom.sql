@@ -123,7 +123,56 @@ CREATE TABLE reserve ( #고객예약신청
        FOREIGN KEY (uid) REFERENCES user(uid) on delete cascade
 );
 
+CREATE TABLE heart (     #하트테이블
+       heartno               int NOT NULL auto_increment, 
+       uid                  varchar(20) NOT NULL, 
+    did                  varchar(50) NOT NULL,
+    heart_chk                int default 0,
+       PRIMARY KEY (heartno),
+     FOREIGN KEY (uid) REFERENCES user(uid) on delete cascade, 
+       FOREIGN KEY (did) REFERENCES designer(did) on delete cascade
 
+);
+
+#---------------------------------------------------------
+alter table notice drop constraint notice_ibfk_1;
+
+alter table notice add constraint con_fk1 foreign key (uid) references
+user (uid) on delete cascade;
+
+alter table reserve drop constraint reserve_ibfk_2;
+
+alter table reserve add constraint con_fk2 foreign key (uid) references
+user (uid) on delete cascade;
+
+alter table review drop constraint review_ibfk_1;
+alter table review drop constraint review_ibfk_2;
+
+alter table review add constraint con_fk3 foreign key (uid) references
+user (uid) on delete cascade;
+
+alter table review add constraint con_fk4 foreign key (did) references
+designer (did) on delete cascade;
+
+alter table certification drop constraint certification_ibfk_1;
+
+alter table certification add constraint con_fk5 foreign key (did) references
+designer (did) on delete cascade;
+
+alter table enroll drop constraint enroll_ibfk_2;
+
+alter table enroll add constraint con_fk6 foreign key (did) references
+designer (did) on delete cascade;
+
+alter table hairmenu drop constraint hairmenu_ibfk_2;
+
+alter table hairmenu add constraint con_fk7 foreign key (did) references
+designer (did) on delete cascade;
+
+alter table style drop constraint style_ibfk_1;
+
+alter table style add constraint con_fk8 foreign key (did) references
+designer (did) on delete cascade;
 #---------------------------------------------------------------------------------------
 SELECT * FROM user;
 SELECT COUNT(uid) FROM user WHERE uid='user1'; -- 중복아이디검사
@@ -157,8 +206,8 @@ INSERT INTO designer(did,dpw,dname,birth,demail,dphone,address1,address2,dzipcod
 VALUES('des4','1111','이소미','950101','hair4@email.com','010-5555-7777','경기 성남시','442-1','66622','개인디자이너','-');
 INSERT INTO designer(did,dpw,dname,birth,demail,dphone,address1,address2,dzipcode,introduction,hairshop)
 VALUES('des5','1111','이유아','020101','hair5@email.com','010-1111-7777','강원도 춘천시','5576-1','22222','안녕하세요>_<','화이트미용실');
+
 UPDATE designer SET validation=0 WHERE did='des5';
-UPDATE designer SET demail='vanjea@naver.com' WHERE did='des1';
 update designer set address1='경기 성남시' where did = 'des4';
 DELETE FROM designer WHERE did='des3';
 #---------------------------------------------------------------------------------------
@@ -219,13 +268,29 @@ INSERT INTO enroll(did, menuno, enrolldate, enrolltime, eprice, emenu) VALUES('d
 INSERT INTO enroll(did, menuno, enrolldate, enrolltime, eprice, emenu) VALUES('des1',1,'2022-08-01','19:00',80000,'세팅펌');
 INSERT INTO enroll(did, menuno, enrolldate, enrolltime, eprice, emenu) VALUES('des1',2,'2022-08-01','19:00',50000,'디지털펌');
 
+select count(*) from review group by did;
+
+select (select count(*) from review where did=d.did) as "rcount" from designer d;
+
+select d.did, d.dname, d.address1, d.hairshop, (select count(*) from review r where r.did=d.did) as rcount from designer d  
+where d.did in (select distinct did from enroll)
+and d.address1 like '%동작구%' OR d.hairshop like '%쥬시%'
+order by rcount desc;
+
+select did, dname, address1, hairshop, likecnt from designer  
+where did in (select distinct did from enroll)
+and address1 like '%동작구%' OR hairshop like '%쥬시%'
+order by likecnt desc;
+
 SELECT e.enrolldate, e.enrolltime, e.menuno, h.menuno, c.catename, h.menu, h.price,  h.hgender, e.did
 FROM enroll e left join hairmenu h on e.menuno = h.menuno
 left join category c on h.cateno = c.cateno where e.did = 'designer3' order by e.menuno asc;
 #---------------------------------------------------------------------------------------
 SELECT * FROM reserve;
+UPDATE reserve SET rconfig = 0 where reserveno=6;
 INSERT INTO reserve(enrollno,uid,message) VALUES('1','user1','10분내로갑니다');
 INSERT INTO reserve(enrollno,uid,message) VALUES('2','user1','머리가얇아요');
+INSERT INTO reserve(enrollno,uid,message) VALUES('18','user1','지난내역테스트');
 #---------------------------------------------------------------------------------------
 SELECT c.did, d.dname, d.birth, c.licenseno, c.licensedate, c.uniquecode1
 FROM designer d inner join certification c
@@ -240,4 +305,3 @@ SELECT d.dname, e.enrolldate, e.enrolltime, h.menu, h.price
 FROM designer d left join enroll e
 on d.did = e.did left join hairmenu h
 on d.did = h.did;
-
