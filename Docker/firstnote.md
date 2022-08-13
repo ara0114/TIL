@@ -114,7 +114,7 @@ docker exec 이미지를 실행
 
 docker images
 
- 랑 docker ps -a 같음
+docker ps -a
 
 
 
