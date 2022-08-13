@@ -23,7 +23,7 @@ Server - 서버 생성
 
 다음 눌러 최종확인 후 일정 시간 기다리면 서버 생성완료
 
-![image](https://user-images.githubusercontent.com/103404127/184471890-03a8e795-d435-4910-9a58-a29cc36a7654.png)
+![image](https://user-images.githubusercontent.com/103404127/184472673-d39b4211-ec05-4051-86b0-14e184c385c0.png)
 
 ---
 
@@ -57,7 +57,7 @@ ACG생성 또는 ACG설정 선택
 
 ---
 
-**서버 접속시 할당받은 공인 IP주소와 설정한 포트 입력 **
+**서버 접속 시, 할당받은 공인 IP주소와 설정 포트 입력**
 
 **관리자 계정/비밀번호 입력 후 로그인**
 
