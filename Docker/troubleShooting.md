@@ -1,4 +1,4 @@
-> cmd 창에서 아래명령어를 사용하여 mysql container 생성하고 실행할때 
+> <h2>cmd 창에서 아래명령어를 사용하여 mysql container 생성하고 실행할때</h2> 
 
 - `docker run -d --name [mysql container 별명] -e MYSQL_ROOT_PASSWORD=[root 계정 비밀번호] -p 3306:3306 --network [network id] -v [volume name]:/var/lib/mysql mysql`
 
@@ -20,7 +20,7 @@ cmd 창에 `netstat -ano | findstr :3306` 입력
 
 
 
-> cmd창 및 원격서버에서 아래명령어를 사용하여 프로젝트 container 생성하고 실행할때
+> <h2>cmd창 및 원격서버에서 아래명령어를 사용하여 프로젝트 container 생성하고 실행할때</h2>
 
 - cmd 창:`docker run -it --name [프로젝트 container 별명] --network [network id] -p 8000:8000 [war파일 이름] bash`
 - 원격서버: `docker run --name [프로젝트 container 별명] -p 8000:8000 --network [network id] [프로젝트 repository name]`
