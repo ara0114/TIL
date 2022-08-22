@@ -83,9 +83,23 @@ states_of_america[1] = "Pencilvania"
 states_of_america.append("Angelaland")
 #리스트 항목 추가하기 - 마지막에 여러개(리스트로 추가)
 states_of_america.extend(["Angelaland","Jack Bauer Land"])
+
+#중첩리스트 활용
+# dirty_dozen = ["Strawberries", "Spinach", "Kale", "Nectarines", "Apples", "Grapes", "Peaches", "Cherries", "Pears", "Tomatoes", "Celery", "Potatoes"]
+
+fruits = ["Strawberries", "Nectarines", "Apples", "Grapes", "Peaches", "Cherries", "Pears"]
+
+vegetables = ["Spinach", "Kale", "Tomatoes", "Celery", "Potatoes"]
+
+dirty_dozen = [fruits, vegetables]
+
+print(dirty_dozen)
+#결과: [['Strawberries', 'Nectarines', 'Apples', 'Grapes', 'Peaches', 'Cherries', 'Pears'], ['Spinach', 'Kale', 'Tomatoes', 'Celery', 'Potatoes']]
 ```
 
-\>4.2 excercise:  Who's Paying Start Here
+
+
+\>4.2 excercise:  Who's Paying
 
 🔗[Convert String to List in Python](https://www.askpython.com/python/string/convert-string-to-list-in-python) 
 
@@ -115,5 +129,117 @@ print(f"{names[random_choice]} is going to buy the meal today!")
 #choice()를 사용할 경우
 person_who_will_pay = random.choice(names)
 print(person_who_will_pay + " is going to buy the meal today!")
+```
+
+
+
+\>4.3 excercise:  Tresure Map
+
+```python
+#You are going to write a program which will mark a spot with an X.
+
+#In the starting code, you will find a variable called map.
+
+#This map contains a nested list.
+#When map is printed this is what the nested list looks like:
+#['⬜️', '⬜️', '⬜️'],['⬜️', '⬜️', '⬜️'],['⬜️', '⬜️', '⬜️']
+
+#In the starting code, we have used new lines (```\n```) to format the three rows into a square, like this:
+#['⬜️', '⬜️', '⬜️']
+#['⬜️', '⬜️', '⬜️']
+#['⬜️', '⬜️', '⬜️']
+
+#This is to try and simulate the coordinates on a real map. 
+#https://res.cloudinary.com/dk-find-out/image/upload/q_80,w_1440,f_auto/Co-ordinates_oggjzg.jpg
+
+#Your job is to write a program that allows you to mark a square on the map using a two-digit system. The first digit is the vertical column number and the second digit is the horizontal row number. e.g.:
+#https://cdn.fs.teachablecdn.com/2vnboIYTFFruvl9FJ2w5
+
+#First your program must take the user input and convert it to a usable format. 
+#Next, you need to use it to update your nested list with an "x". 
+
+#Hint 1. Remember that Lists start at index 0!
+#Hint 2. map is just a variable that contains a nested list. It's not related to the map function in Python.
+
+row1 = ["⬜️","⬜️","⬜️"]
+row2 = ["⬜️","⬜️","⬜️"]
+row3 = ["⬜️","⬜️","⬜️"]
+map = [row1, row2, row3]
+print(f"{row1}\n{row2}\n{row3}")
+position = input("Where do you want to put the treasure? ")
+
+
+horizonal = int(position[0])
+vertical = int(position[1])
+
+# #map[x]:세로위치
+# 방법1
+# selected_row = map[vertical - 1] #-1을 하지않으면 index error발생
+# selected_row[horizonal - 1] = "X"
+
+# 방법2
+map[vertical - 1][horizonal - 1] = "X"
+
+print(f"{row1}\n{row2}\n{row3}")
+```
+
+### day4 Project
+
+\> Rock Paper Scissors
+
+```python
+rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
+
+paper = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
+
+scissors = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''
+
+#Write your code below this line 👇
+import random
+
+chooseImage = [rock, paper, scissors]
+
+myChoose = int(input("What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors. "))
+
+if myChoose >= 3 or myChoose < 0 :
+  print("You typed an invalid number, you lose")
+else :
+  print(chooseImage[myChoose])
+  
+  comChoose = random.randint(0, 2)
+  print("Computer chose: ")
+  print(chooseImage[comChoose])
+  
+  if myChoose == 0 and comChoose == 2 :
+    print("You win")
+  elif myChoose == 2 and comChoose == 0 :
+    print("You lose")
+  elif myChoose > comChoose:
+    print("You win")
+  elif myChoose < comChoose:
+    print("You lose")
+  elif myChoose == comChoose:
+    print("Draw")
 ```
 
