@@ -189,15 +189,100 @@ a = set([1,2,3,4,5]) 또는 a = {1,2,3,4,5}
   ```
 
 - 논리연산자
-- and, or, not
+
+  - and, or, not
+
 - in, not in
 
 ## 반복문
 
+- while : 조건이 true일 동안 실행문 반복
 
+  ```python
+  while 조건:
+      실행문
+  ```
+
+- for : in 뒤에 오는 데이터에  포함ㄷ되어 있는 모든 원소 첫 인덱스부터 차례로 하나씩 순회
+
+  ```python
+  for 변수 in 리스트/튜플/문자열 등:
+      실행문
+  # 수를 차례로 나열할때 주로 range사용
+  for i in range(start,end+1)
+  for i in range(x) #0부터 x-1까지
+  ```
 
 ## 함수
 
+- 동일한 코드를 반복 수행해야할때 사용
+- 매개변수 정의할 수 있고, 반환하기 위해 return문을 사용할 수 있음(매개변수,return문 존재하지 않을 수 있음)
+- 함수 안에서 함수 밖의 변수 데이터 변경시, 함수에서 global키워드 이용하여 변수 지정하면 함수 밖의 변수 참조가능
+- 람다식 사용가능
+
+```python
+# 함수 선언
+def 함수명(매개변수):
+    실행문
+    return 반환값
+# 함수 예시
+def add(a,b):
+    return a +b
+print(add(2,5))
+# 람다식 예시
+print((lambda a, b : a + b)(2, 5))
+```
+
 ## 입출력
 
+- 입력
+
+  ```python
+  # 한줄의 문자열 입력
+  input()
+  # 입력받은 문자열을 여러 개의 데이터 공백(띄어쓰기)로 구분해 정수 자료형으로 저장
+  list(map(int,input().split()))
+  # 공백기준으로 적은 갯수의 데이터 입력
+  a,b,c = map(int,input().split())
+  # --------------------------------------------------------------------- #
+  # input()은 동작느려서 시간초과될 수 있음 => sys라이브러리에 있는 sys.stdin.readline()함수 이용
+  import sys
+  sys.stdin.readline().rstrip() #rstrip은 줄바꿈(공백)제거
+  ```
+
+- 출력
+
+  ```python
+  # 표준 출력
+  print() # ,를 기준으로 각 변수 띄어쓰기로 구분되어 출력. 출력이후 줄바꿈
+  # 문자열 자료형의 출력(수와 문자열 함께 출력하기)
+  a=2
+  print("당첨된 숫자는" + str(a) + "입니다.")
+  또는
+  print("당첨된 숫자는",a,"입니다.")
+  또는
+  print(f"당첨된 숫자는 {a}입니다.")
+  ```
+
 ## 주요라이브러리
+
+- 내장함수 :  import없이 사용할수 있음. 가장 기본적이면서 필수적인 기능 포함
+- itertools : 반복되는 데이터를 처리하는 기능을 포함하는 라이브러리(순열,조합 등)
+  - permutations(리스트, n) : n개의 데이터 뽑아 일렬로 나열하는 모든 경우(순열)
+  - product(리스트,repeat=n) : n개의 데이터를 뽑아 일렬로 나열하는 모든 순열, 중복 포함
+  - combinations(리스트,n) : n개의 데이터 뽑아 순서를 고려하지 않고 나열하는 모든 경우(조합)
+  - combinations_with_replacement(리스트,n): n개를 뽑는 모든 조합, 중복포함
+- heapq : 힙 기능을 제공하는 라이브러리(우선순위 큐 기능 구현시)
+  - heapq.heappop() : 힙에서 원소 꺼내기
+  - heapq.heappush() : 힙에 원소 삽입
+- bisect : 이진탐색 기능 제공하는 라이브러리
+  - 정렬된 배열에서 특정한 원소 찾을때 매우 효과적
+  - bisect_left(리스트, 값) : 정렬유지하며 리스트에 값 삽입할 가장 왼쪽 인덱스 찾기
+  - bisect_right(리스트,값) : 정렬유지하며 리스트에 값 삽입할 가장 오른쪽 인덱스 찾기
+  - count_by_range(값,bisect_left,bisect_right): 특정범위에 속하는 값의 갯수
+- collections : 유용한 자료구조를 제공하는 라이브러리(deque, Counter 등)
+  - deque : 연속적으로 나열된 데이터 시작이나 끝에 데이터를 삽입하거나 삭제할때 효과적
+    - popleft() : 첫번째 원소 제거 / pop() : 마지막 원소 제거
+    - appendleft() : 맨 앞에 원소 추가 / append() : 맨 끝에 원소 추가
+  - Counter : 등장횟수세기
+- math : 필수적인 수학 기능 제공.(팩토리얼(factorial), 제곱근(sqrt), 최대공약수(gcd), 삼각함수 등)
