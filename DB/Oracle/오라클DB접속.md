@@ -8,7 +8,8 @@ xshell에서
 - lsnrctl start orcl
 
 DB접속
-- sqlplus "/as sysdba"
+- sqlplus / as sysdba
+  또는 sqlplus "/as sysdba"
 
 실행
 - startup
