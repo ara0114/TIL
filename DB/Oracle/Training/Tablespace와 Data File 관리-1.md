@@ -132,4 +132,4 @@ Drop명령으로 테이블 스페이스를 삭제할 수 있는데 <br>
 <img src="https://user-images.githubusercontent.com/103404127/226285090-1179c711-73a3-4554-9bd4-e25c87cae960.png">
 
 옵션을 사용한 문장은 정상적으로 실행되고<br>
-*DBA_DATA_FILES* 를 조회할 경우 해당 테이블 스페이스가 삭제되어 보이지 않음을 확인할 수 있다.<br>
+*DBA_DATA_FILES* 를 조회할 경우 해당 테이블 스페이스가 삭제되어 보이지 않음을 확인할 수 있다.<br> 
