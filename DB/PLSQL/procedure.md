@@ -16,7 +16,7 @@ END;
 
 또는
 
-CREATE OR REPLACE PROCEDURE 프로시저명(변수명 [IN|OUT|IN OUT] 데이터타입, ...)
+CREATE OR REPLACE PROCEDURE 프로시저명(파라미터명 [IN|OUT|IN OUT] 데이터타입, ...)
 IS
 [ 변수명 데이터타입; -- 프로시저 내에서 사용할 변수선언
 	...
